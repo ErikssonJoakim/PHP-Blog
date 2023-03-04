@@ -1,0 +1,4 @@
+vendor/
+cache/
+.env
+.DS_Store

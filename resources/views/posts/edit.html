@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ getTranslation('edit' ,'edit_post') }} | Blog</title>
+    <script
+      src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.0/dist/alpine.js"
+      defer
+    ></script>
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body class="antialiased">
+    {% include 'includes/header.html' %}
+    <div class="container mx-auto px-4 md:px-6 lg:px-8 pb-16 pt-12 sm:pt-16">
+      <form
+        action="{{ getRoute('posts.update', {slug: post.slug}) }}"
+        method="POST"
+        class="space-y-8 divide-y divide-gray-200"
+        novalidate
+      >
+        <div>
+          {{ createCsrfField()|raw }} {{ createMethodField('PATCH')|raw }}
+
+          <h3 class="text-lg leading-6 font-medium text-gray-900">
+            {{ getTranslation('edit' ,'edit_post') }}
+          </h3>
+          <p class="mt-1 text-sm text-gray-500">
+            {{ getTranslation('edit' ,'warning_publish') }}
+          </p>
+          <div class="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
+            <div class="sm:col-span-4">
+              <label
+                for="title"
+                class="block text-sm font-medium text-gray-700"
+              >
+                {{ getTranslation('edit' ,'title') }}
+              </label>
+              <div
+                class="mt-1 {% if getErrors('title') %} relative rounded-md shadow-sm {% endif %}"
+              >
+                <input
+                  id="title"
+                  name="title"
+                  type="text"
+                  value="{{ getOldValues('title', post.title) }}"
+                  class="block w-full sm:text-sm rounded-md shadow-sm {% if getErrors('title') %} border-red-300 text-red-900 placeholder-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500 {% else %} focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 {% endif %}"
+                />
+                {% if getErrors('title') %}
+                <div
+                  class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none"
+                >
+                  <svg
+                    class="h-5 w-5 text-red-500"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                </div>
+                {% endif %}
+              </div>
+              {% if getErrors('title') %}
+              <p class="mt-2 text-sm text-red-600">
+                {{ getErrors('title')[0] }}
+              </p>
+              {% endif %}
+            </div>
+
+            <div class="sm:col-span-6">
+              <label for="post" class="block text-sm font-medium text-gray-700">
+                {{ getTranslation('edit' ,'body') }}
+              </label>
+              <div class="mt-1">
+                <textarea
+                  id="post"
+                  name="post"
+                  rows="3"
+                  class="block w-full sm:text-sm rounded-md shadow-sm {% if getErrors('post') %} border-red-300 text-red-900 placeholder-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500 {% else %} focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 {% endif %}"
+                >
+{{ getOldValues('post', post.body) }}</textarea
+                >
+              </div>
+              {% if getErrors('post') %}
+              <p class="mt-2 text-sm text-red-600">
+                {{ getErrors('post')[0] }}
+              </p>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        <div class="pt-5">
+          <div class="flex justify-end">
+            <button
+              type="submit"
+              class="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            >
+              {{ getTranslation('edit' ,'update') }}
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>

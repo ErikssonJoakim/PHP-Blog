@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ getTranslation('home', 'my_account') }} | Blog</title>
+    <script
+      src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.0/dist/alpine.js"
+      defer
+    ></script>
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body class="antialiased">
+    {% include "includes/header.html" %}
+    <div
+      class="container mx-auto md:space-y-6 px-4 md:px-6 lg:px-8 pb-16 pt-12 sm:pt-16"
+    >
+      {% if getStatus() %}
+      <div class="rounded-md bg-indigo-50 p-4">
+        <div class="flex">
+          <div class="flex-shrink-0">
+            <svg
+              class="h-5 w-5 text-indigo-400"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                clip-rule="evenodd"
+              />
+            </svg>
+          </div>
+          <div class="ml-3">
+            <p class="text-sm font-medium text-indigo-800">{{ getStatus() }}</p>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+      <form
+        action="{{ getRoute('home.updateName') }}"
+        method="POST"
+        class="space-y-8 divide-y divide-gray-200"
+        novalidate
+      >
+        <div>
+          <h3 class="text-lg leading-6 font-medium text-gray-900">
+            {{ getTranslation('home', 'identity') }}
+          </h3>
+          <div class="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
+            {{ createCsrfField()|raw }} {{ createMethodField('PATCH')|raw }}
+            <div class="sm:col-span-4">
+              <label for="name" class="block text-sm font-medium text-gray-700">
+                {{ getTranslation('home', 'name') }}
+              </label>
+              <div
+                class="mt-1 {% if getErrors('name') %} relative rounded-md shadow-sm {% endif %}"
+              >
+                <input
+                  id="name"
+                  name="name"
+                  type="text"
+                  value="{{ getOldValues('name', user.name) }}"
+                  class="block w-full sm:text-sm rounded-md shadow-sm {% if getErrors('name') %} border-red-300 text-red-900 placeholder-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500 {% else %} focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 {% endif %}"
+                />
+                {% if getErrors('name') %}
+                <div
+                  class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none"
+                >
+                  <svg
+                    class="h-5 w-5 text-red-500"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                </div>
+                {% endif %}
+              </div>
+              {% if getErrors('name') %}
+              <p class="mt-2 text-sm text-red-600">
+                {{ getErrors('name')[0] }}
+              </p>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        <div class="pt-5">
+          <div class="flex justify-end">
+            <button
+              type="submit"
+              class="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            >
+              {{ getTranslation('home', 'name_modify') }}
+            </button>
+          </div>
+        </div>
+      </form>
+
+      <form
+        action="{{ getRoute('home.updateEmail') }}"
+        method="POST"
+        class="space-y-8 divide-y divide-gray-200"
+        novalidate
+      >
+        <div>
+          <h3 class="text-lg leading-6 font-medium text-gray-900">
+            {{ getTranslation('home', 'email_address') }}
+          </h3>
+          <div class="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
+            {{ createCsrfField()|raw }} {{ createMethodField('PATCH')|raw }}
+            <div class="sm:col-span-4">
+              <label
+                for="email"
+                class="block text-sm font-medium text-gray-700"
+              >
+                {{ getTranslation('home', 'email') }}
+              </label>
+              <div
+                class="mt-1 {% if getErrors('email') %} relative rounded-md shadow-sm {% endif %}"
+              >
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  value="{{ getOldValues('email', user.email) }}"
+                  class="block w-full sm:text-sm rounded-md shadow-sm {% if getErrors('email') %} border-red-300 text-red-900 placeholder-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500 {% else %} focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 {% endif %}"
+                />
+                {% if getErrors('email') %}
+                <div
+                  class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none"
+                >
+                  <svg
+                    class="h-5 w-5 text-red-500"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                </div>
+                {% endif %}
+              </div>
+              {% if getErrors('email') %}
+              <p class="mt-2 text-sm text-red-600">
+                {{ getErrors('email')[0] }}
+              </p>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        <div class="pt-5">
+          <div class="flex justify-end">
+            <button
+              type="submit"
+              class="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            >
+              {{ getTranslation('home', 'email_modify') }}
+            </button>
+          </div>
+        </div>
+      </form>
+
+      <form
+        action="{{ getRoute('home.updatePassword') }}"
+        method="POST"
+        class="space-y-8 divide-y divide-gray-200"
+        novalidate
+      >
+        <div>
+          <h3 class="text-lg leading-6 font-medium text-gray-900">
+            {{ getTranslation('home', 'password') }}
+          </h3>
+          <div class="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
+            {{ createCsrfField()|raw }} {{ createMethodField('PATCH')|raw }}
+            <div class="sm:col-span-4">
+              <label
+                for="password_old"
+                class="block text-sm font-medium text-gray-700"
+              >
+                {{ getTranslation('home', 'password_current') }}
+              </label>
+              <div
+                class="mt-1 {% if getErrors('password_old') %} relative rounded-md shadow-sm {% endif %}"
+              >
+                <input
+                  id="password_old"
+                  name="password_old"
+                  type="password"
+                  class="block w-full sm:text-sm rounded-md shadow-sm {% if getErrors('password_old') %} border-red-300 text-red-900 placeholder-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500 {% else %} focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 {% endif %}"
+                />
+                {% if getErrors('password_old') %}
+                <div
+                  class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none"
+                >
+                  <svg
+                    class="h-5 w-5 text-red-500"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                </div>
+                {% endif %}
+              </div>
+              {% if getErrors('password_old') %}
+              <p class="mt-2 text-sm text-red-600">
+                {{ getErrors('password_old')[0] }}
+              </p>
+              {% endif %}
+            </div>
+
+            <div class="sm:col-span-4">
+              <label
+                for="password"
+                class="block text-sm font-medium text-gray-700"
+              >
+                {{ getTranslation('home', 'password') }}
+              </label>
+              <div
+                class="mt-1 {% if getErrors('password') %} relative rounded-md shadow-sm {% endif %}"
+              >
+                <input
+                  id="password"
+                  name="password"
+                  type="password"
+                  class="block w-full sm:text-sm rounded-md shadow-sm {% if getErrors('password') %} border-red-300 text-red-900 placeholder-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500 {% else %} focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 {% endif %}"
+                />
+                {% if getErrors('password') %}
+                <div
+                  class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none"
+                >
+                  <svg
+                    class="h-5 w-5 text-red-500"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                </div>
+                {% endif %}
+              </div>
+              {% if getErrors('password') %}
+              <p class="mt-2 text-sm text-red-600">
+                {{ getErrors('password')[0] }}
+              </p>
+              {% endif %}
+            </div>
+
+            <div class="sm:col-span-4">
+              <label
+                for="password_confirmation"
+                class="block text-sm font-medium text-gray-700"
+              >
+                {{ getTranslation('home', 'password_confirmation') }}
+              </label>
+              <div class="mt-1">
+                <input
+                  id="password_confirmation"
+                  name="password_confirmation"
+                  type="password"
+                  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="pt-5">
+          <div class="flex justify-end">
+            <button
+              type="submit"
+              class="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            >
+              {{ getTranslation('home', 'password_change') }}
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>

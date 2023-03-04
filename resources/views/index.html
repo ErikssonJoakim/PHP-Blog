@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blog</title>
+    <script
+      src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.0/dist/alpine.js"
+      defer
+    ></script>
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body class="antialiased">
+    <header
+      x-data="{ nav: false }"
+      x-cloak
+      class="bg-indigo-500 pt-8 lg:pt-12 pb-16 text-white"
+    >
+      <div class="container mx-auto px-4 sm:px-6 lg:px-8 flex flex-col">
+        <div class="flex justify-between">
+          <a
+            href="{{ getRoute('index') }}"
+            class="transform hover:rotate-90 transition"
+          >
+            <svg
+              class="fill-current w-6 h-6 lg:w-8 lg:h-8"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path d="M0 0h24v24H0z" fill-rule="evenodd" />
+            </svg>
+          </a>
+          <button @click="nav = !nav">
+            <svg
+              x-show="!nav"
+              class="stroke-current w-6 h-6 lg:w-8 lg:h-8"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M4 6h16M4 12h8m-8 6h16"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            <svg
+              x-show="nav"
+              class="stroke-current w-6 h-6 lg:w-8 lg:h-8"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        </div>
+        {% include 'includes/nav.html' %} {% if posts[0] %}
+        <h1
+          class="mt-28 lg:mt-36 text-2xl sm:text-3xl xl:text-5xl xl:leading-tight lg:text-center font-bold"
+        >
+          {{ posts[0].title }}
+        </h1>
+        <a
+          href="{{ getRoute('posts.show', {slug: posts[0].slug}) }}"
+          class="self-center mt-24 lg:mt-32 block py-4 px-7 lg:px-9 lg:text-lg leading-none border border-white hover:bg-white hover:text-indigo-800 transition"
+        >
+          {{ getTranslation('index' ,'read_article') }}
+        </a>
+        {% endif %}
+      </div>
+    </header>
+    <div
+      class="md:container mx-auto md:px-6 lg:px-8 grid md:grid-cols-2 xl:grid-cols-3 gap-y-12 md:gap-x-8 pb-16 md:pt-16"
+    >
+      {% for post in posts %}
+      <article>
+        <img
+          src="assets/image/{{ post.img }}"
+          alt="{{ post.img }}"
+          class="w-full"
+        />
+        <div class="px-4 sm:px-6 md:px-0">
+          <h1
+            class="mt-4 text-2xl sm:text-3xl md:text-2xl font-bold text-gray-900"
+          >
+            <a href="{{ getRoute('posts.show', {slug: post.slug}) }}"
+              >{{ post.title }}</a
+            >
+          </h1>
+          <ul class="mt-6 flex space-x-8 font-bold text-sm text-gray-700">
+            <li class="flex items-center leading-none">
+              <svg
+                class="stroke-current w-6 h-6"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+              <span class="mb-px ml-1">{{ post.get_comments_count }}</span>
+            </li>
+            <li class="flex items-center leading-none">
+              <svg
+                class="stroke-current w-6 h-6"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+              <span class="mb-px ml-1">{{ post.reading_time }}</span>
+            </li>
+          </ul>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+  </body>
+</html>

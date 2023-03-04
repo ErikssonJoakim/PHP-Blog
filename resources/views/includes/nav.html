@@ -1,0 +1,44 @@
+<nav x-show="nav" class="self-end mt-6 text-xl leading-none text-right">
+  <ul class="space-y-8">
+    {% if initAuthentication().isAuthenticated() %}
+    <li>
+      <a href="{{ getRoute('home') }}" class="hover:underline"
+        >{{ getTranslation('nav' ,'my_account') }}</a
+      >
+    </li>
+    {% if initAuthentication().isAdmin() %}
+    <li>
+      <a href="{{ getRoute('posts.create') }}" class="hover:underline"
+        >{{ getTranslation('nav' ,'create_post') }}</a
+      >
+    </li>
+    {% endif %}
+    <li>
+      <a
+        href="{{ getRoute('logout') }}"
+        @click="event.preventDefault();document.getElementById('logout-form').submit();"
+        class="hover:underline"
+        >{{ getTranslation('nav' ,'disconnect') }}</a
+      >
+      <form
+        method="POST"
+        action="{{ getRoute('logout') }}"
+        id="logout-form"
+        class="hidden"
+      ></form>
+      {{ createCsrfField()|raw }}
+    </li>
+    {% else %}
+    <li>
+      <a href="{{ getRoute('login.form') }}" class="hover:underline"
+        >{{ getTranslation('nav' ,'connect') }}</a
+      >
+    </li>
+    <li>
+      <a href="{{ getRoute('register.form') }}" class="hover:underline"
+        >{{ getTranslation('nav' ,'register') }}</a
+      >
+    </li>
+    {% endif %}
+  </ul>
+</nav>

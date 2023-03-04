@@ -1,0 +1,48 @@
+<header x-data="{ nav: false }" x-cloak class="bg-indigo-500 py-6 text-white">
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8 flex flex-col">
+    <div class="flex justify-between">
+      <a
+        href="{{ getRoute('index') }}"
+        class="transform hover:rotate-90 transition"
+      >
+        <svg
+          class="fill-current w-6 h-6"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path d="M0 0h24v24H0z" fill-rule="evenodd" />
+        </svg>
+      </a>
+      <button @click="nav = !nav">
+        <svg
+          x-show="!nav"
+          class="stroke-current w-6 h-6"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M4 6h16M4 12h8m-8 6h16"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+        <svg
+          x-show="nav"
+          class="stroke-current w-6 h-6"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M6 18L18 6M6 6l12 12"
+          />
+        </svg>
+      </button>
+    </div>
+    {% include "includes/nav.html" %}
+  </div>
+</header>

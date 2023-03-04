@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ getTranslation('register', 'registration') }} | Blog</title>
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body class="antialiased">
+    <div
+      class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8"
+    >
+      <div class="max-w-md w-full space-y-8">
+        <div class="flex flex-col items-center">
+          <a
+            href="{{ getRoute('index') }}"
+            class="transform hover:rotate-90 transition text-indigo-600"
+          >
+            <svg
+              class="fill-current w-12 h-12"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path d="M0 0h24v24H0z" fill-rule="evenodd" />
+            </svg>
+          </a>
+          <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+            {{ getTranslation('register', 'join_us') }}
+          </h2>
+          <p class="mt-2 text-center text-sm text-gray-600">
+            {{ getTranslation('register', 'register_question') }}
+            <a
+              href="{{ getRoute('login.form') }}"
+              class="font-medium text-indigo-600 hover:text-indigo-500"
+            >
+              {{ getTranslation('register', 'connect') }}
+            </a>
+          </p>
+        </div>
+
+        {% if getErrors() %}
+        <div class="rounded-md bg-red-50 p-4 text-sm text-red-700">
+          <ul class="list-disc pl-5 space-y-1">
+            {% for error in getErrors() %}
+            <li>{{ error }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+        {% endif %}
+        <form
+          action="{{ getRoute('register.request') }}"
+          method="POST"
+          class="flex flex-col space-y-6"
+          novalidate
+        >
+          <div class="rounded-md shadow-sm -space-y-px">
+            {{ createCsrfField()|raw }}
+            <input
+              name="name"
+              type="text"
+              value="{{ getOldValues('name') }}"
+              placeholder="{{ getTranslation('register', 'name') }}"
+              class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+            />
+            <input
+              name="email"
+              type="email"
+              value="{{ getOldValues('email') }}"
+              placeholder="{{ getTranslation('register', 'email') }}"
+              class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+            />
+            <input
+              name="password"
+              type="password"
+              placeholder="{{ getTranslation('register', 'password') }}"
+              class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+            />
+            <input
+              name="password_confirmation"
+              type="password"
+              placeholder="{{ getTranslation('register', 'password_confirmation') }}"
+              class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+            />
+          </div>
+          <button
+            type="submit"
+            class="w-full flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          >
+            {{ getTranslation('register', 'registration') }}
+          </button>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>
